@@ -1,0 +1,9 @@
+rootProject.name = 'java-spsp-client-spring'
+
+include ':java-crypto-conditions'
+project(':java-crypto-conditions').projectDir = new File(settingsDir, '../java-crypto-conditions')
+
+include ':java-ilp-core'
+project(':java-ilp-core').projectDir = new File(settingsDir, '../java-ilp-core')
+
+
