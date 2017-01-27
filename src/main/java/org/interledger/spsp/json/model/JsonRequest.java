@@ -1,4 +1,4 @@
-package org.interledger.spsp.rest.json;
+package org.interledger.spsp.json.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

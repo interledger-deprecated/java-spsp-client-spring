@@ -1,4 +1,8 @@
-package org.interledger.spsp.rest.json;
+package org.interledger.spsp.json.model;
+
+import org.interledger.ilp.InterledgerAddress;
+import org.interledger.spsp.json.InterledgerAddressSerializer;
+import org.interledger.setup.spsp.model.ReceiverType;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -12,9 +16,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.interledger.ilp.core.InterledgerAddress;
-import org.interledger.spsp.core.model.Receiver;
-import org.interledger.spsp.core.model.ReceiverType;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(content = Include.NON_NULL)
@@ -26,14 +27,15 @@ import org.interledger.spsp.core.model.ReceiverType;
 @JsonSubTypes(
     {@Type(value = JsonPayee.class, name = "payee"),
     @Type(value = JsonInvoice.class, name = "invoice")})
-public abstract class JsonReceiver implements Receiver {
+public abstract class JsonReceiver {
 
   private ReceiverType type;
   private InterledgerAddress account;
   private String currencyCode;
   private String currencySymbol;
+  private int scale;
+  private int precision;
 
-  @Override
   @JsonProperty("type")
   public ReceiverType getType() {
     return type;
@@ -43,7 +45,6 @@ public abstract class JsonReceiver implements Receiver {
     this.type = type;
   }
 
-  @Override
   @JsonProperty("account")
   public InterledgerAddress getAccount() {
     return account;
@@ -53,7 +54,6 @@ public abstract class JsonReceiver implements Receiver {
     this.account = account;
   }
 
-  @Override
   @JsonProperty("currency_code")
   public String getCurrencyCode() {
     return currencyCode;
@@ -63,7 +63,6 @@ public abstract class JsonReceiver implements Receiver {
     this.currencyCode = currencyCode;
   }
 
-  @Override
   @JsonProperty("currency_symbol")
   public String getCurrencySymbol() {
     return currencySymbol;
@@ -71,6 +70,24 @@ public abstract class JsonReceiver implements Receiver {
 
   public void setCurrencySymbol(String currencySymbol) {
     this.currencySymbol = currencySymbol;
+  }
+  
+  @JsonProperty("precison")
+  public int getPrecision() {
+    return precision;
+  }
+
+  public void setPrecision(int precision) {
+    this.precision = precision;
+  }
+  
+  @JsonProperty("scale")
+  public int getScale() {
+    return scale;
+  }
+
+  public void setScale(int scale) {
+    this.scale = scale;
   }
   
   @Override

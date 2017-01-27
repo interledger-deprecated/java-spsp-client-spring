@@ -1,16 +1,17 @@
-package org.interledger.spsp.rest.json;
+package org.interledger.spsp.json.model;
+
+import java.time.ZonedDateTime;
+
+import org.interledger.cryptoconditions.Condition;
+import org.interledger.ilp.InterledgerAddress;
+import org.interledger.spsp.json.ConditionDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.interledger.cryptoconditions.Condition;
-import org.interledger.ilp.core.InterledgerAddress;
-import org.interledger.spsp.core.model.PaymentRequest;
 
-import java.time.ZonedDateTime;
-
-public class JsonPaymentRequest implements PaymentRequest {
+public class JsonInterledgerPaymentRequest {
 
   private InterledgerAddress address;
   private String amount;
@@ -21,7 +22,6 @@ public class JsonPaymentRequest implements PaymentRequest {
   private String additionalHeaders;
 
   
-  @Override
   @JsonProperty("address")
   public InterledgerAddress getAddress() {
     return address;
@@ -31,7 +31,6 @@ public class JsonPaymentRequest implements PaymentRequest {
     this.address = address;
   }
 
-  @Override
   @JsonProperty("amount")
   public String getAmount() {
     return amount;
@@ -41,7 +40,6 @@ public class JsonPaymentRequest implements PaymentRequest {
     this.amount = amount;
   }
 
-  @Override
   @JsonProperty("condition")
   public Condition getCondition() {
     return condition;
@@ -51,7 +49,6 @@ public class JsonPaymentRequest implements PaymentRequest {
     this.condition = condition;
   }
 
-  @Override
   @JsonProperty("expires_at")
   public ZonedDateTime getExpiresAt() {
     return expiresAt;
@@ -61,7 +58,6 @@ public class JsonPaymentRequest implements PaymentRequest {
     this.expiresAt = expiresAt;
   }
 
-  @Override
   @JsonProperty("data")
   public Object getData() {
     return data;
@@ -71,7 +67,6 @@ public class JsonPaymentRequest implements PaymentRequest {
     this.data = data;
   }
 
-  @Override
   @JsonProperty("additional_headers")
   public String getAdditionalHeaders() {
     return additionalHeaders;
