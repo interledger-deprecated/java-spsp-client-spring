@@ -1,9 +1,9 @@
-package org.interledger.spsp.rest.json;
+package org.interledger.spsp.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import org.interledger.ilp.core.InterledgerAddress;
+import org.interledger.ilp.InterledgerAddress;
 
 import java.io.IOException;
 
