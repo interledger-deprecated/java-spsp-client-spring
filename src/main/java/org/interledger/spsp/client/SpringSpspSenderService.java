@@ -9,6 +9,7 @@ import org.interledger.ilp.ledger.money.format.LedgerSpecificDecimalMonetaryAmou
 import org.interledger.setup.SetupService;
 import org.interledger.setup.model.Receiver;
 import org.interledger.setup.model.ReceiverQuery;
+import org.interledger.setup.spsp.model.Invoice;
 import org.interledger.setup.spsp.model.SpspReceiver;
 import org.interledger.setup.spsp.model.SpspReceiverQuery;
 import org.interledger.spsp.json.SpspJsonConverter;
@@ -60,6 +61,12 @@ public class SpringSpspSenderService implements SetupService {
     Objects.requireNonNull(spspReceiver.getEndpoint());
     Objects.requireNonNull(amount);
     Objects.requireNonNull(senderIdentifier);
+    
+    if(spspReceiver instanceof Invoice){
+      if(!((Invoice) spspReceiver).getAmount().equals(amount)) {
+        throw new IllegalArgumentException("The requested amount must match the amount on the Invoice.");
+      }
+    }
 
     LedgerSpecificDecimalMonetaryAmountFormat formatter = 
         new LedgerSpecificDecimalMonetaryAmountFormat(spspReceiver.getCurrencyUnit(), spspReceiver.getPrecision(), spspReceiver.getScale());
