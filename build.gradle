@@ -37,11 +37,14 @@ dependencies {
 
     compile project(":java-crypto-conditions")
     compile project(":java-ilp-core")
+    compile project(":java-ilp-client")
         
     compile("org.slf4j:jcl-over-slf4j:1.7.12")
      
     compile("org.springframework:spring-core:4.3.5.RELEASE")
     compile("org.springframework:spring-web:4.3.5.RELEASE")
+    
+    //FIXME Get rid of this dependancy
     compile("org.springframework.boot:spring-boot-starter-web:1.4.3.RELEASE")
 
     // JSR-354 (javax.money) Reference implementation

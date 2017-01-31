@@ -15,6 +15,8 @@ import org.interledger.spsp.json.model.JsonInvoice;
 import org.interledger.spsp.json.model.JsonPayee;
 import org.interledger.spsp.json.model.JsonReceiver;
 import org.interledger.setup.model.Receiver;
+import org.interledger.setup.spsp.model.Invoice;
+import org.interledger.setup.spsp.model.Payee;
 import org.interledger.setup.spsp.model.ReceiverType;
 import org.interledger.setup.spsp.model.SpspReceiver;
 
@@ -82,6 +84,63 @@ public class SpspJsonConverter {
       
   }
   
-  
+  public static JsonReceiver convertSpspReceiver(SpspReceiver receiver) {
+    
+    
+    LedgerSpecificDecimalMonetaryAmountFormat formatter = new LedgerSpecificDecimalMonetaryAmountFormat(receiver.getCurrencyUnit(), receiver.getPrecision(), receiver.getScale());
+    
+    JsonReceiver jsonReceiver;
+    if(receiver instanceof Invoice){
+      
+      Invoice invoice = (Invoice) receiver;
+      JsonInvoice jsonInvoice = new JsonInvoice();
+      jsonReceiver = jsonInvoice;
+      
+      jsonInvoice.setType(ReceiverType.invoice);
+      
+      jsonInvoice.setInvoiceInfo(invoice.getInvoiceInfo());
+      jsonInvoice.setAmount(formatter.format(invoice.getAmount()));
+      jsonInvoice.setStatus(invoice.getStatus());
+      
+    } else if(receiver instanceof Payee) {
+      
+      Payee payee = (Payee) receiver;
+      JsonPayee jsonPayee = new JsonPayee();
+      jsonReceiver = jsonPayee;
+      
+      jsonPayee.setType(ReceiverType.payee);
+      
+      jsonPayee.setName(payee.getName());
+      jsonPayee.setImageUrl(payee.getImageUrl());      
+      
+    } else {
+      throw new IllegalArgumentException("Unknown SPSP receiver type.");
+    }
+    
+    jsonReceiver.setAccount(receiver.getAccount());
+    jsonReceiver.setCurrencyCode(receiver.getCurrencyUnit().getCurrencyCode());
+    jsonReceiver.setCurrencySymbol(""); //TODO Should this come from the formatter?
+    jsonReceiver.setPrecision(receiver.getPrecision());
+    jsonReceiver.setScale(receiver.getScale());
+    
+    return jsonReceiver;
+    
+  }
+
+  public static JsonInterledgerPaymentRequest convertInterledgerPaymentRequest(Receiver receiver, InterledgerPaymentRequest ipr) {
+    
+    LedgerSpecificDecimalMonetaryAmountFormat formatter = 
+        new LedgerSpecificDecimalMonetaryAmountFormat(receiver.getCurrencyUnit(), receiver.getPrecision(), receiver.getScale());
+    
+    JsonInterledgerPaymentRequest jsonIpr = new JsonInterledgerPaymentRequest();
+    jsonIpr.setAddress(ipr.getAddress());
+    jsonIpr.setAmount(formatter.format(ipr.getAmount()));
+    jsonIpr.setCondition(ipr.getCondition());
+    jsonIpr.setExpiresAt(ipr.getExpiresAt());
+    jsonIpr.setData(ipr.getData());
+    jsonIpr.setAdditionalHeaders(ipr.getAdditionalHeaders());
+    return jsonIpr;  
+    
+  }
 
 }

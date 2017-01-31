@@ -16,7 +16,6 @@ import org.interledger.spsp.json.SpspJsonConverter;
 import org.interledger.spsp.json.model.JsonInterledgerPaymentRequest;
 import org.interledger.spsp.json.model.JsonReceiver;
 import org.interledger.spsp.json.model.JsonRequest;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -25,10 +24,6 @@ import org.springframework.web.client.RestTemplate;
 public class SpringSpspSenderService implements SetupService {
 
   private RestTemplate restTemplate;
-  
-  public SpringSpspSenderService() {
-    this.restTemplate = new RestTemplateBuilder().build();
-  }
   
   public SpringSpspSenderService(RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
