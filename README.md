@@ -1,4 +1,4 @@
-# Interledger SPSP REST client (Java)
+# Interledger SPSP REST client (Java) [![CircleCI](https://circleci.com/gh/interledger/java-spsp-client-spring.svg?style=svg)](https://circleci.com/gh/interledger/java-spsp-client-spring)
 
 Interledger Simple Payment Setup Protocol REST client.
 
