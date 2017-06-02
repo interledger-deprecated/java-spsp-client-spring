@@ -12,8 +12,8 @@ The project is setup to find project dependencies in the _same directory_ so the
 
 ```bash
 
-    $ git checkout https://github.com/interledger/java-crypto-conditions.git
-    $ git checkout https://github.com/interledger/java-ilp-core.git
+    $ git clone https://github.com/interledger/java-crypto-conditions.git
+    $ git clone https://github.com/interledger/java-ilp-core.git
 
 ```
 
