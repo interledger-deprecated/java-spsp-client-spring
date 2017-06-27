@@ -44,12 +44,12 @@ The library adheres to the interfaces in the [Interledger Protocol Core](https:/
 
 ## TODO
 
-    [ ] Fix Checkstyle issues
-    
+    [X] Fix Checkstyle issues
+    [ ] Update according to changes in dependencies
 
-	## Contributors
+## Contributors
 
-Any contribution is very much appreciated! [![gitter][gitter-image]][gitter-url]
+Any contribution is very much appreciated!
 
 ## License
 

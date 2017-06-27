@@ -45,11 +45,13 @@ public class Application {
       Receiver alice = service.query(new SpspReceiverQuery("https://red.ilpdemo.org/api/receivers/alice"));
       log.info("asked for receiver alice, got {}", alice);
       
-//      InterledgerPaymentRequest bobPayReq = service.setupPayment(bob, "10.40", "test@ipldemo.org", "totally fake for testing");
-//      log.info("asked bob to set up a payment, got {}", bobPayReq);
-//  
-//      InterledgerPaymentRequest alicePayReq = service.setupPayment(alice, "10.40", "test@ipldemo.org", "totally fake for testing");
-//      log.info("asked alice to set up a payment, got {}", alicePayReq);
+      //InterledgerPaymentRequest bobPayReq = service.setupPayment(bob, "10.40", "test@ipldemo.org",
+      // "totally fake for testing");
+      //log.info("asked bob to set up a payment, got {}", bobPayReq);
+      //
+      //InterledgerPaymentRequest alicePayReq = service.setupPayment(alice, "10.40",
+      // "test@ipldemo.org", "totally fake for testing");
+      //log.info("asked alice to set up a payment, got {}", alicePayReq);
     };
   }
 }
