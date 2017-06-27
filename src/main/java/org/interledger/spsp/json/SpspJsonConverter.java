@@ -1,12 +1,10 @@
 package org.interledger.spsp.json;
 
-import java.net.URI;
-
-import javax.money.CurrencyUnit;
-import javax.money.Monetary;
-
 import org.interledger.ilp.InterledgerPaymentRequest;
 import org.interledger.ilp.ledger.money.format.LedgerSpecificDecimalMonetaryAmountFormat;
+import org.interledger.setup.model.Receiver;
+import org.interledger.setup.spsp.model.ReceiverType;
+import org.interledger.setup.spsp.model.SpspReceiver;
 import org.interledger.spsp.client.model.ClientInvoice;
 import org.interledger.spsp.client.model.ClientPayee;
 import org.interledger.spsp.client.model.ClientReceiver;
@@ -14,16 +12,26 @@ import org.interledger.spsp.json.model.JsonInterledgerPaymentRequest;
 import org.interledger.spsp.json.model.JsonInvoice;
 import org.interledger.spsp.json.model.JsonPayee;
 import org.interledger.spsp.json.model.JsonReceiver;
-import org.interledger.setup.model.Receiver;
-import org.interledger.setup.spsp.model.ReceiverType;
-import org.interledger.setup.spsp.model.SpspReceiver;
+
+import java.net.URI;
+import javax.money.CurrencyUnit;
+import javax.money.Monetary;
 
 public class SpspJsonConverter {
-  
-  public static InterledgerPaymentRequest convertJsonInterledgerPaymentRequest(Receiver receiver, JsonInterledgerPaymentRequest jsonIpr) {
+
+  /**
+   * Converts JSON interledger payment request to InterledgerPaymentRequest.
+   * @param receiver Receiver
+   * @param jsonIpr JSON interledger payment request
+   * @return ipr InterledgerPaymentRequest
+   */
+  public static InterledgerPaymentRequest convertJsonInterledgerPaymentRequest(Receiver receiver,
+                                                          JsonInterledgerPaymentRequest jsonIpr) {
 
     LedgerSpecificDecimalMonetaryAmountFormat formatter = 
-        new LedgerSpecificDecimalMonetaryAmountFormat(receiver.getCurrencyUnit(), receiver.getPrecision(), receiver.getScale());
+        new LedgerSpecificDecimalMonetaryAmountFormat(receiver.getCurrencyUnit(),
+                receiver.getPrecision(),
+                receiver.getScale());
     
     InterledgerPaymentRequest ipr = new InterledgerPaymentRequest();
     ipr.setAddress(jsonIpr.getAddress());
@@ -34,7 +42,13 @@ public class SpspJsonConverter {
     ipr.setAdditionalHeaders(jsonIpr.getAdditionalHeaders());
     return ipr;
   }
-  
+
+  /**
+   * Converts JSON receiver to SpspReceiver.
+   * @param receiverEndpoint Receiver endpoint
+   * @param jsonReceiver JSON receiver
+   * @return receiver SpspReceiver
+   */
   public static SpspReceiver convertJsonReceiver(URI receiverEndpoint, JsonReceiver jsonReceiver) {
     
     
@@ -43,7 +57,7 @@ public class SpspJsonConverter {
     CurrencyUnit currency = Monetary.getCurrency(jsonReceiver.getCurrencyCode());
     ClientReceiver receiver;
     
-    switch(type) {
+    switch (type) {
       case invoice:
         ClientInvoice invoice = new ClientInvoice();
         receiver = invoice;
@@ -51,7 +65,9 @@ public class SpspJsonConverter {
         invoice.setInvoiceInfo(jsonInvoice.getInvoiceInfo());
         invoice.setStatus(jsonInvoice.getStatus());
         LedgerSpecificDecimalMonetaryAmountFormat formatter = 
-            new LedgerSpecificDecimalMonetaryAmountFormat(currency, jsonInvoice.getPrecision(), jsonReceiver.getScale());
+            new LedgerSpecificDecimalMonetaryAmountFormat(currency,
+                    jsonInvoice.getPrecision(),
+                    jsonReceiver.getScale());
         invoice.setAmount(formatter.parse(jsonInvoice.getAmount()));
         break;
       case payee:
@@ -73,7 +89,7 @@ public class SpspJsonConverter {
     receiver.setScale(jsonReceiver.getScale());
     
     //TODO Temp fix for older APIs that don't return this info
-    if(receiver.getPrecision() == 0 && receiver.getScale() == 0){
+    if (receiver.getPrecision() == 0 && receiver.getScale() == 0) {
       receiver.setPrecision(10);
       receiver.setScale(2);
     }

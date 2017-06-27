@@ -1,11 +1,10 @@
 package org.interledger.spsp.client.model;
 
-import java.net.URI;
-
-import javax.money.MonetaryAmount;
-
 import org.interledger.setup.spsp.model.Invoice;
 import org.interledger.setup.spsp.model.InvoiceStatus;
+
+import java.net.URI;
+import javax.money.MonetaryAmount;
 
 public class ClientInvoice extends ClientReceiver implements Invoice {
 

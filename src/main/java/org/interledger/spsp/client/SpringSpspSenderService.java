@@ -1,9 +1,5 @@
 package org.interledger.spsp.client;
 
-import java.util.Objects;
-
-import javax.money.MonetaryAmount;
-
 import org.interledger.ilp.InterledgerPaymentRequest;
 import org.interledger.ilp.ledger.money.format.LedgerSpecificDecimalMonetaryAmountFormat;
 import org.interledger.setup.SetupService;
@@ -19,8 +15,12 @@ import org.interledger.spsp.json.model.JsonRequest;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Objects;
+import javax.money.MonetaryAmount;
+
 /**
- * An implementation of a Simple Payment Setup Protocol sender client service using a Spring rest template. 
+ * An implementation of a Simple Payment Setup Protocol sender client service
+ * using a Spring rest template.
  */
 public class SpringSpspSenderService implements SetupService {
 
@@ -37,7 +37,7 @@ public class SpringSpspSenderService implements SetupService {
   @Override
   public SpspReceiver query(ReceiverQuery query) {
     
-    if(!(query instanceof SpspReceiverQuery)){
+    if (!(query instanceof SpspReceiverQuery)) {
       throw new IllegalArgumentException("Only SPSP receiver queries are allowed.");
     }
     
@@ -45,14 +45,18 @@ public class SpringSpspSenderService implements SetupService {
     
     Objects.requireNonNull(spspQuery.getReceiverEndpoint());
     
-    JsonReceiver jsonReceiver = restTemplate.getForObject(spspQuery.getReceiverEndpoint(), JsonReceiver.class);
+    JsonReceiver jsonReceiver = restTemplate.getForObject(spspQuery.getReceiverEndpoint(),
+            JsonReceiver.class);
     return SpspJsonConverter.convertJsonReceiver(spspQuery.getReceiverEndpoint(), jsonReceiver);
   }
 
   @Override
-  public InterledgerPaymentRequest setupPayment(Receiver receiver, MonetaryAmount amount, String senderIdentifier, String memo) {
+  public InterledgerPaymentRequest setupPayment(Receiver receiver,
+                                                MonetaryAmount amount,
+                                                String senderIdentifier,
+                                                String memo) {
     
-    if(!(receiver instanceof SpspReceiver)) {
+    if (!(receiver instanceof SpspReceiver)) {
       throw new IllegalArgumentException("Only SPSP receivers are allowed.");
     }
     
@@ -62,21 +66,26 @@ public class SpringSpspSenderService implements SetupService {
     Objects.requireNonNull(amount);
     Objects.requireNonNull(senderIdentifier);
     
-    if(spspReceiver instanceof Invoice){
-      if(!((Invoice) spspReceiver).getAmount().equals(amount)) {
-        throw new IllegalArgumentException("The requested amount must match the amount on the Invoice.");
+    if (spspReceiver instanceof Invoice) {
+      if (!((Invoice) spspReceiver).getAmount().equals(amount)) {
+        throw new IllegalArgumentException("The requested amount must match the amount "
+                + "on the Invoice.");
       }
     }
 
     LedgerSpecificDecimalMonetaryAmountFormat formatter = 
-        new LedgerSpecificDecimalMonetaryAmountFormat(spspReceiver.getCurrencyUnit(), spspReceiver.getPrecision(), spspReceiver.getScale());
+        new LedgerSpecificDecimalMonetaryAmountFormat(spspReceiver.getCurrencyUnit(),
+                spspReceiver.getPrecision(),
+                spspReceiver.getScale());
     
     JsonRequest req = new JsonRequest();
     req.setAmount(formatter.format(amount));
     req.setSenderIdentifier(senderIdentifier);
     req.setMemo(memo);
 
-    JsonInterledgerPaymentRequest jsonIpr = restTemplate.postForObject(spspReceiver.getEndpoint(), req, JsonInterledgerPaymentRequest.class);
+    JsonInterledgerPaymentRequest jsonIpr = restTemplate.postForObject(spspReceiver.getEndpoint(),
+            req,
+            JsonInterledgerPaymentRequest.class);
     return SpspJsonConverter.convertJsonInterledgerPaymentRequest(spspReceiver, jsonIpr);
     
   }

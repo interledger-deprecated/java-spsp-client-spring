@@ -1,8 +1,8 @@
 package org.interledger.spsp.client.model;
 
-import java.net.URI;
-
 import org.interledger.setup.spsp.model.Payee;
+
+import java.net.URI;
 
 public class ClientPayee extends ClientReceiver implements Payee {
 

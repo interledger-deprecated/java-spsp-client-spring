@@ -1,10 +1,10 @@
 package org.interledger.spsp.json.model;
 
-import java.net.URI;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class JsonPayee extends JsonReceiver{
+import java.net.URI;
+
+public class JsonPayee extends JsonReceiver {
 
   private String name;
   private URI imageUrl;
