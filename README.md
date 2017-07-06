@@ -49,6 +49,11 @@ The library adheres to the interfaces in the [Interledger Protocol Core](https:/
 
 ## Contributors
 
+[![Join the chat on gitter][gitter-image]][gitter-url]
+
+[gitter-url]: https://gitter.im/interledger/java
+[gitter-image]: https://badges.gitter.im/interledger/java.svg
+
 Any contribution is very much appreciated!
 
 ## License
