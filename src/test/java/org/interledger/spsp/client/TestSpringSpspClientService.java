@@ -8,35 +8,27 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.money.CurrencyQueryBuilder;
-import javax.money.CurrencyUnit;
-import javax.money.Monetary;
-import javax.money.MonetaryAmount;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.interledger.cryptoconditions.uri.CryptoConditionUri;
 import org.interledger.ilp.InterledgerAddress;
 import org.interledger.ilp.InterledgerPaymentRequest;
 import org.interledger.ilp.ledger.money.format.LedgerSpecificDecimalMonetaryAmountFormat;
+import org.interledger.setup.model.Receiver;
+import org.interledger.setup.spsp.model.Invoice;
+import org.interledger.setup.spsp.model.InvoiceStatus;
+import org.interledger.setup.spsp.model.Payee;
+import org.interledger.setup.spsp.model.ReceiverType;
+import org.interledger.setup.spsp.model.SpspReceiver;
+import org.interledger.setup.spsp.model.SpspReceiverQuery;
 import org.interledger.spsp.json.ConditionSerializer;
 import org.interledger.spsp.json.InterledgerAddressSerializer;
 import org.interledger.spsp.json.model.JsonInterledgerPaymentRequest;
 import org.interledger.spsp.json.model.JsonInvoice;
 import org.interledger.spsp.json.model.JsonPayee;
 import org.interledger.spsp.json.model.JsonRequest;
-import org.interledger.setup.spsp.model.Invoice;
-import org.interledger.setup.spsp.model.InvoiceStatus;
-import org.interledger.setup.spsp.model.Payee;
-import org.interledger.setup.model.Receiver;
-import org.interledger.setup.spsp.model.ReceiverType;
-import org.interledger.setup.spsp.model.SpspReceiver;
-import org.interledger.setup.spsp.model.SpspReceiverQuery;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
@@ -44,10 +36,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import javax.money.CurrencyQueryBuilder;
+import javax.money.CurrencyUnit;
+import javax.money.Monetary;
+import javax.money.MonetaryAmount;
 
 public class TestSpringSpspClientService {
 
@@ -141,7 +139,8 @@ public class TestSpringSpspClientService {
     Invoice invoiceResponse = (Invoice) response;
     assertEquals(ReceiverType.invoice, invoiceResponse.getType());
     assertEquals(mockInvoice.getAccount(), invoiceResponse.getAccount());
-    assertEquals(mockInvoice.getCurrencyCode(), invoiceResponse.getCurrencyUnit().getCurrencyCode());
+    assertEquals(mockInvoice.getCurrencyCode(),
+            invoiceResponse.getCurrencyUnit().getCurrencyCode());
     assertEquals(mockInvoice.getAmount(), formatter.format(invoiceResponse.getAmount()));
     assertEquals(mockInvoice.getStatus(), invoiceResponse.getStatus());
     assertEquals(mockInvoice.getInvoiceInfo(), invoiceResponse.getInvoiceInfo());
@@ -210,10 +209,11 @@ public class TestSpringSpspClientService {
       }
     };
     
-    MonetaryAmount usdAmount = Monetary.getDefaultAmountFactory().setCurrency("USD").setNumber(10.40).create();
+    MonetaryAmount usdAmount = Monetary.getDefaultAmountFactory().setCurrency("USD")
+            .setNumber(10.40).create();
     
-    InterledgerPaymentRequest response = service.setupPayment(bobReceiver, usdAmount, "alice@blue.ilpdemo.org",
-        "Hey Bob!");
+    InterledgerPaymentRequest response = service.setupPayment(bobReceiver, usdAmount,
+            "alice@blue.ilpdemo.org", "Hey Bob!");
 
     assertNotNull(response);
     assertEquals(reqRsp.getAddress(), response.getAddress());

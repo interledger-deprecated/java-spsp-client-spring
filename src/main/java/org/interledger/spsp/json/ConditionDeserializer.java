@@ -30,7 +30,7 @@ public class ConditionDeserializer extends StdDeserializer<Condition> {
       URI conditionUri = URI.create(parser.getValueAsString());
       
       //FIXME Temporary fix for old URI format
-      if("cc".equals(conditionUri.getScheme())) {
+      if ("cc".equals(conditionUri.getScheme())) {
         return getConditionFromOldUri(conditionUri);
       }
       
@@ -44,7 +44,7 @@ public class ConditionDeserializer extends StdDeserializer<Condition> {
     
     String[] parts = uri.toString().split(":");
     
-    if(!"0".equals(parts[1])) {
+    if (!"0".equals(parts[1])) {
       throw new RuntimeException("Only PreimageSha256 conditions are supported in the old format.");
     }
     

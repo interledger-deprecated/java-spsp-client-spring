@@ -1,10 +1,9 @@
 package org.interledger.spsp.json.model;
 
-import java.net.URI;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.interledger.setup.spsp.model.InvoiceStatus;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.net.URI;
 
 public class JsonInvoice extends JsonReceiver {
 

@@ -1,12 +1,11 @@
 package org.interledger.spsp.client.model;
 
-import java.net.URI;
-
-import javax.money.CurrencyUnit;
-
 import org.interledger.ilp.InterledgerAddress;
 import org.interledger.setup.spsp.model.ReceiverType;
 import org.interledger.setup.spsp.model.SpspReceiver;
+
+import java.net.URI;
+import javax.money.CurrencyUnit;
 
 public abstract class ClientReceiver implements SpspReceiver {
 
@@ -46,6 +45,7 @@ public abstract class ClientReceiver implements SpspReceiver {
   public int getScale() {
     return scale;
   }
+
   public void setEndpoint(URI endpoint) {
     this.endpoint = endpoint;
   }

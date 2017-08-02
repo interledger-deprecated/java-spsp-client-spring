@@ -1,9 +1,5 @@
 package org.interledger.spsp.json.model;
 
-import org.interledger.ilp.InterledgerAddress;
-import org.interledger.spsp.json.InterledgerAddressSerializer;
-import org.interledger.setup.spsp.model.ReceiverType;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -16,6 +12,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.interledger.ilp.InterledgerAddress;
+import org.interledger.setup.spsp.model.ReceiverType;
+import org.interledger.spsp.json.InterledgerAddressSerializer;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(content = Include.NON_NULL)

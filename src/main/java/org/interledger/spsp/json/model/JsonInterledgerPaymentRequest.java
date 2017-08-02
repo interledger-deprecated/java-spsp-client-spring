@@ -1,15 +1,14 @@
 package org.interledger.spsp.json.model;
 
-import java.time.ZonedDateTime;
-
-import org.interledger.cryptoconditions.Condition;
-import org.interledger.ilp.InterledgerAddress;
-import org.interledger.spsp.json.ConditionDeserializer;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.interledger.cryptoconditions.Condition;
+import org.interledger.ilp.InterledgerAddress;
+import org.interledger.spsp.json.ConditionDeserializer;
+
+import java.time.ZonedDateTime;
 
 public class JsonInterledgerPaymentRequest {
 
